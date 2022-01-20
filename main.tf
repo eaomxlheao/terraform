@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "rg" {
-  name     = "bookRg"
+  name     = "eao"
   location = "West Europe"
 
   tags = {
@@ -7,27 +7,33 @@ resource "azurerm_resource_group" "rg" {
   }
 }
 
+resource "azurerm_network_watcher" "nwwatcher" {
+  name                = "eao-nwwatcher"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+}
+
 resource "azurerm_virtual_network" "vnet" {
-  name                = "book-vnet"
+  name                = "eao-vnet"
   location            = "West Europe"
   address_space       = ["10.0.0.0/16"]
   resource_group_name = azurerm_resource_group.rg.name
 }
 
 resource "azurerm_subnet" "subnet" {
-  name                 = "book-subnet"
+  name                 = "eao-subnet"
   virtual_network_name = azurerm_virtual_network.vnet.name
   resource_group_name  = azurerm_resource_group.rg.name
   address_prefixes     = ["10.0.10.0/24"]
 }
 
 resource "azurerm_network_interface" "nic" {
-  name                = "book-nic"
+  name                = "eao-nic"
   location            = "West Europe"
   resource_group_name = azurerm_resource_group.rg.name
 
   ip_configuration {
-    name                          = "bookipconfig"
+    name                          = "eaoipconfig"
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.pip.id
@@ -35,15 +41,15 @@ resource "azurerm_network_interface" "nic" {
 }
 
 resource "azurerm_public_ip" "pip" {
-  name                         = "book-ipeao"
+  name                         = "eap-pip"
   location                     = "West Europe"
   allocation_method            = "Static"
   resource_group_name          = azurerm_resource_group.rg.name
-  domain_name_label            = "bookdevopseao"
+  domain_name_label            = "eaodevops"
 }
 
 resource "azurerm_storage_account" "stor" {
-  name                     = "bookstoreao"
+  name                     = "eaostorage"
   location                 = "West Europe"
   resource_group_name      = azurerm_resource_group.rg.name
   account_tier             = "Standard"
@@ -51,7 +57,7 @@ resource "azurerm_storage_account" "stor" {
 }
 
 resource "azurerm_virtual_machine" "vm" {
-  name                  = "bookvm"
+  name                  = "eaovm"
   location              = "West Europe"
   resource_group_name   = azurerm_resource_group.rg.name
   vm_size               = "Standard_DS1_v2"
@@ -65,16 +71,16 @@ resource "azurerm_virtual_machine" "vm" {
   }
 
   storage_os_disk {
-    name              = "book-osdisk"
+    name              = "eao-osdisk"
     managed_disk_type = "Standard_LRS"
     caching           = "ReadWrite"
     create_option     = "FromImage"
   }
 
   os_profile {
-    computer_name  = "VMBOOK"
-    admin_username = "testadmin"
-    admin_password = "book123*"
+    computer_name  = "EAOVM"
+    admin_username = "eaomxlheao"
+    admin_password = "Moquito1"
   }
 
   os_profile_linux_config {
