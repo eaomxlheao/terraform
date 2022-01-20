@@ -1,0 +1,44 @@
+
+--Comando para crear la app (service principal)
+az ad sp create-for-rbac --name="SPForTerraform" --role="Contributor" --scopes="/subscriptions/55e27171-6d98-46b4-b5bf-44601a56307c"
+
+
+--Salida del Comando (appId ->ClientId, password-> ClientSecret, tenant-> TenantId)
+{
+  "appId": "9eab5532-cc47-4b8a-99ff-268952841d9d",
+  "displayName": "SPForTerraform",
+  "password": "TA8_tMrRM22cxrlb~-YS-qDt8R2hw_dQYp",
+  "tenant": "74406d83-5179-469a-a6a4-149f51f283a2"
+}
+
+--Contalta dentro de portal
+Azure Active directory -> Registros de applicaciones -> Todas las applicaciones
+
+--Login
+az login
+
+[
+  {
+    "cloudName": "AzureCloud",
+    "homeTenantId": "74406d83-5179-469a-a6a4-149f51f283a2",
+    "id": "55e27171-6d98-46b4-b5bf-44601a56307c",
+    "isDefault": true,
+    "managedByTenants": [],
+    "name": "Azure subscription 1",
+    "state": "Enabled",
+    "tenantId": "74406d83-5179-469a-a6a4-149f51f283a2",
+    "user": {
+      "name": "eaodevops@outlook.com",
+      "type": "user"
+    }
+  }
+]
+
+Pasos:
+    1) az login
+    2) terraform fmt
+    3) terraform init    
+    4) terraform validate
+    5) terraform plan -out=out.tfplan
+    6) terraform apply --auto-approve out.tfplan
+    7) terraform destroy
