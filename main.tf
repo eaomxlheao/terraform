@@ -35,11 +35,11 @@ resource "azurerm_network_interface" "nic" {
 }
 
 resource "azurerm_public_ip" "pip" {
-  name                = "book-ip-eao"
-  location            = "West Europe"
-  allocation_method   = "Static"
-  resource_group_name = azurerm_resource_group.rg.name
-  domain_name_label   = "bookdevops-eao"
+  name                         = "book-ipeao"
+  location                     = "West Europe"
+  allocation_method            = "Static"
+  resource_group_name          = azurerm_resource_group.rg.name
+  domain_name_label            = "bookdevopseao"
 }
 
 resource "azurerm_storage_account" "stor" {
@@ -72,7 +72,7 @@ resource "azurerm_virtual_machine" "vm" {
   }
 
   os_profile {
-    computer_name  = "VMBOOK-EAO"
+    computer_name  = "VMBOOK"
     admin_username = "testadmin"
     admin_password = "book123*"
   }
