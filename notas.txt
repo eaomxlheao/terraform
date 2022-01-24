@@ -42,3 +42,7 @@ Pasos:
     5) terraform plan -out=out.tfplan
     6) terraform apply --auto-approve out.tfplan
     7) terraform destroy
+
+az group create --name eaoRGRemoteBackend --location westeurope
+az storage account create --resource-group eaoRGRemoteBackend --name eaostorageremote --sku Standard_LRS --encryption-services blob
+az storage account keys list -g eaoRGRemoteBackend -n eaostorageremote

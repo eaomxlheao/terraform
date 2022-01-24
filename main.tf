@@ -1,3 +1,16 @@
+terraform {
+  backend "azurerm" {
+    storage_account_name = "eaostorageremote"
+    container_name       = "tfbackends"
+    key                  = "terraform.tfstate"
+
+    # rather than defining this inline, the Access Key can also be sourced
+    # from an Environment Variable - more information is available below.
+    access_key = "0m4nFY46OgerK2cIwaVPKAPnEBVkvmHTcnjRI6DnauKtp2nOZmBlO0mMtRjBzC5/VsawyQolnHmtO94liXMBvQ=="
+  }
+}
+
+
 resource "azurerm_resource_group" "rg" {
   name     = "eao"
   location = "West Europe"
@@ -41,11 +54,11 @@ resource "azurerm_network_interface" "nic" {
 }
 
 resource "azurerm_public_ip" "pip" {
-  name                         = "eap-pip"
-  location                     = "West Europe"
-  allocation_method            = "Static"
-  resource_group_name          = azurerm_resource_group.rg.name
-  domain_name_label            = "eaodevops"
+  name                = "eap-pip"
+  location            = "West Europe"
+  allocation_method   = "Static"
+  resource_group_name = azurerm_resource_group.rg.name
+  domain_name_label   = "eaodevops"
 }
 
 resource "azurerm_storage_account" "stor" {
@@ -85,6 +98,10 @@ resource "azurerm_virtual_machine" "vm" {
 
   os_profile_linux_config {
     disable_password_authentication = false
+  }
+
+  tags = {
+    environment = "webserver"
   }
 
   boot_diagnostics {
